@@ -43,6 +43,7 @@ def get_articles(dom, date):
                 title = d.find('a').text
                 author = d.find('div', 'author').text if d.find('div', 'author') else ''
                 articles.append({
+                    'date': date,
                     'title': title,
                     'href': pttUrl + href,
                     'push_count': push_count,
@@ -52,6 +53,7 @@ def get_articles(dom, date):
 
 
 if __name__ == '__main__':
+    
     today = time.strftime("%m/%d").lstrip('0')
 
     articlesAll = []
@@ -80,6 +82,9 @@ if __name__ == '__main__':
     # 將資料轉成 DataFrame 處理
     articlesDF = pd.DataFrame(articlesAll)
     articlesResult = articlesDF[articlesDF["push_count"] > 50]
+    
+    # 依推的數量排序
     articlesResultSort = articlesResult.sort_values(by=['push_count'], ascending=False)
     print(articlesResultSort)
+    
     articlesResult.to_excel('ppt_gossiping.xlsx', encoding='utf-8-sig', index=False)
