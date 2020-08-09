@@ -8,3 +8,5 @@ yahoo_movie.py：Yahoo電影本週新片，依期待度的數字排序
 news.py：取得自由時報網站的即時
 
 google_stock.py：Google 搜尋股價資訊
+
+dcard.py：Dcard 今日熱門文章
