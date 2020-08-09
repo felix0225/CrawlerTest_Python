@@ -21,7 +21,7 @@ def get_movies(dom):
     rows = soup.find_all('div', 'release_info')
     for row in rows:
         movie = dict()
-        movie['expectation'] = int(row.find('div', 'leveltext').span.text.strip().replace('%',''))
+        movie['expectation'] = int(row.find('div', 'leveltext').span.text.strip().replace('%', ''))
         # print('expectation=',movie['expectation'])
         movie['ch_name'] = row.find('div', 'release_movie_name').a.text.strip()
         # print('ch_name='+movie['ch_name'])
@@ -43,6 +43,7 @@ def get_movies(dom):
 
 
 def get_date(date_str):
+    # "上映日期：2017-03-23" -> match.group(0): "2017-03-23"
     pattern = '\d+-\d+-\d+'
     match = re.search(pattern, date_str)
     if match is None:
@@ -60,18 +61,18 @@ def get_movie_id(url):
 
 
 if __name__ == '__main__':
-    
+
     moviesAll = []
-    
-    for i in range(1,3):
-        page = get_web_page(MOVIE_URL+'?page='+str(i))
+
+    for i in range(1, 3):
+        page = get_web_page(MOVIE_URL + '?page=' + str(i))
         moviesAll += get_movies(page)
-     
+
     # 將資料轉成 DataFrame 處理
     moveResult = pd.DataFrame(moviesAll)
-    
+
     # 依期待度的數字排序
     moveResultSort = moveResult.sort_values(by=['expectation'], ascending=False)
     print(moveResultSort)
-    
+
     moveResultSort.to_excel('yahoo_movie.xlsx', encoding='utf-8-sig', index=False)
