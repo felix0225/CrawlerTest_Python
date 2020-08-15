@@ -1,9 +1,10 @@
 import requests
-from bs4 import BeautifulSoup
 import time
-import pandas as pd
+import re
+from bs4 import BeautifulSoup
 
 pttUrl = 'https://www.ptt.cc'
+API_KEY = 'YOUR_API_KEY'
 
 
 def get_web_page(url):
@@ -58,6 +59,25 @@ def get_articles(dom, date):
     return articles, prev_link
 
 
+def get_ip(dom):
+    # e.g., ※ 發信站: 批踢踢實業坊(ptt.cc), 來自: 27.52.6.175
+    pattern = r'來自: \d+\.\d+\.\d+\.\d+'
+    match = re.search(pattern, dom)
+    if match:
+        return match.group(0).replace('來自: ', '')
+    else:
+        return None
+
+
+def get_country(ip):
+    if ip:
+        url = f'http://api.ipstack.com/{ip}?access_key={API_KEY}'
+        data = requests.get(url).json()
+        country_name = data['country_name'] if data['country_name'] else None
+        return country_name
+    return None
+
+
 if __name__ == '__main__':
     # 今天日期, 去掉開頭的 '0' 以符合 PTT 網站格式
     today = time.strftime("%m/%d").lstrip('0')
@@ -75,28 +95,22 @@ if __name__ == '__main__':
 
     print('今天共有', len(articlesAll), '篇文章')
 
-    threshold = 50
-    print(f'熱門文章(> {threshold} 推):')
+    # 已取得文章列表，開始進入各文章尋找發文者 IP
+    print('取得前 100 篇文章 IP')
+    country_to_count = dict()
+    for article in articlesAll[:100]:
+        print('文章標題:', article['title'])
+        page = get_web_page(article['href'])
+        if page:
+            ip = get_ip(page)
+            print('查詢 IP:', ip)
+            country = get_country(ip)
+            if country in country_to_count.keys():
+                country_to_count[country] += 1
+            else:
+                country_to_count[country] = 1
 
-    # # 直接用 list 處理
-    # new_articlesAll = [i for i in articlesAll if i['push_count'] > threshold]
-    # for a in new_articlesAll:
-    #     print(a)
-    # # 存成 json 檔
-    # with open('gossiping.json', 'w', encoding='utf-8') as f:
-    #     json.dump(new_articlesAll, f, indent=2, sort_keys=True, ensure_ascii=False)
-
-    # 將資料轉成 DataFrame 處理
-    articlesDF = pd.DataFrame(articlesAll)
-    articlesResult = articlesDF[articlesDF["push_count"] > 50]
-
-    # 依推的數量排序
-    articlesResultSort = articlesResult.sort_values(
-        by=['push_count'], ascending=False)
-    print(articlesResultSort)
-
-    # 儲存文章資訊
-    articlesResult.to_excel(
-        'ppt_gossiping.xlsx',
-        encoding='utf-8-sig',
-        index=False)
+    # 印出各國 IP 次數資訊
+    print('各國 IP 分布')
+    for k, v in country_to_count.items():
+        print(k, v)
