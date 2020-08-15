@@ -12,3 +12,5 @@ google_stock.py：Google 搜尋股價資訊
 dcard.py：Dcard 今日熱門文章
 
 ptt_gossiping_ip.py：PTT八卦版，來源分佈
+
+ezprice_csv.py：取資料存入 csv 檔案內
