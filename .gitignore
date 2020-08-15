@@ -1,4 +1,5 @@
 /.idea
 *.xlsx
 *.csv
+*.sqlite
 /Crawler591.py
