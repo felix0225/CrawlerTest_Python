@@ -3,3 +3,4 @@
 *.csv
 *.sqlite
 /Crawler591.py
+/geckodriver.*
