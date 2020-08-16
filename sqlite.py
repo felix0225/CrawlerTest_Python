@@ -4,16 +4,14 @@ import csv
 
 def execute_db(fname, sql_cmd):
     conn = sqlite3.connect(fname)
-    c = conn.cursor()
-    c.execute(sql_cmd)
+    conn.execute(sql_cmd)
     conn.commit()
     conn.close()
 
 
 def select_db(fname, sql_cmd):
     conn = sqlite3.connect(fname)
-    c = conn.cursor()
-    c.execute(sql_cmd)
+    c = conn.execute(sql_cmd)
     rows = c.fetchall()
     conn.close()
     return rows
