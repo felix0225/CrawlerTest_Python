@@ -22,3 +22,5 @@ thrsc.py：台灣高鐵時刻查詢
 bot_house.py：台銀法拍屋資訊查詢
 
 twse_db.py：抓台股每日盤後資料
+
+twse_kd.py：KD值與黃金交叉
