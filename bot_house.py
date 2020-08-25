@@ -15,7 +15,8 @@ if __name__ == '__main__':
         # https://github.com/mozilla/geckodriver/releases
         driver = webdriver.Firefox(
             options=options,
-            executable_path='geckodriver.exe')
+            executable_path='geckodriver.exe',
+			service_log_path='nul')	#不要產生 geckodriver.log
         # 等待網頁載入完畢，最多等60秒
         driver.set_page_load_timeout(60)
         driver.get(url)

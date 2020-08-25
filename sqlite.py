@@ -18,7 +18,7 @@ def select_db(fname, sql_cmd):
 
 
 if __name__ == '__main__':
-    db_name = 'db.sqlite'
+    db_name = 'sqlite_db.sqlite3'
     print('建立資料庫及資料表')
     cmd = 'CREATE TABLE record (id INTEGER PRIMARY KEY AUTOINCREMENT, item TEXT, price INTEGER, shop TEXT)'
     execute_db(db_name, cmd)

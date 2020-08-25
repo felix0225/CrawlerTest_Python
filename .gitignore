@@ -1,6 +1,6 @@
 /.idea
 *.xlsx
 *.csv
-*.sqlite
+*.sqlite*
 /Crawler591.py
 /geckodriver.*
