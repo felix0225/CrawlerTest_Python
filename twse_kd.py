@@ -55,7 +55,9 @@ def get_buy_signal(k_values, d_values):
 
 
 if __name__ == '__main__':
-    price_data = get_data(db_name, '0050', 260)
+    stockid = '0050';
+    price_data = get_data(db_name, stockid, 260)
+    print('證券代號: '+stockid)
     dates = [d[0] for d in price_data]
     prices = [d[1] for d in price_data]
     print('起始日期: {} (收盤價: {}), 結束日期: {} (收盤價: {}) ({} 天)'.format(

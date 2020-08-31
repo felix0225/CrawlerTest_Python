@@ -92,13 +92,13 @@ def update_db(date_from, date_to):
         else:
             print(current.strftime('%Y-%m-%d'), '... 失敗 (可能為假日)')
         current += datetime.timedelta(days=1)
-        time.sleep(10)  # 放慢爬蟲速度
+        time.sleep(7)  # 放慢爬蟲速度
 
 
 if __name__ == '__main__':
-    db_from, db_to = get_date_range_from_db(db_name)
-    print('資料庫日期: {} 到 {}'.format(db_from.strftime('%Y-%m-%d'), db_to.strftime('%Y-%m-%d')))
-    date_from = db_to + datetime.timedelta(days=1)
-    # date_from = datetime.datetime.today() - datetime.timedelta(days=365)
+    # db_from, db_to = get_date_range_from_db(db_name)
+    # print('資料庫日期: {} 到 {}'.format(db_from.strftime('%Y-%m-%d'), db_to.strftime('%Y-%m-%d')))
+    # date_from = db_to + datetime.timedelta(days=1)
+    date_from = datetime.datetime.today() - datetime.timedelta(days=365)
     date_to = datetime.datetime.today()
     update_db(date_from, date_to)
